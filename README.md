@@ -1,4 +1,4 @@
-# PIX2PIS Model WITH UT-Zappos50K Dataset
+# Pix2Pix Model WITH UT-Zappos50K Dataset
 
 ## Introduction:
 -In this project, I aimed to train a Pix2Pix model architecture for image to image translation.
