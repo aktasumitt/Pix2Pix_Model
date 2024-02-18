@@ -61,13 +61,13 @@ else:
 
 # Train Models
 if config.TRAIN==True:
-    Loss_Train_Dict=train.Training(EPOCHS=config.EPOCHS,dataloader=train_dataloader,Generator_Model=Generator_Model,
-                                    Discriminator_Model=Discriminator_Model,devices=devices,resume_epoch=resume_epoch,
-                                    discriminator_scaler=discriminator_scaler,generator_scaler=generator_scaler,
-                                    LAMDA=config.LAMDA_L1,loss_BCE=loss_BCE,loss_L1=loss_L1,max_batch=config.MAX_BATCH_TRAIN,
-                                    optimizer_disc=optimizer_disc,optimizer_gen=optimizer_gen,
-                                    Save_Checkpoints_fn=checkpoints.Save_Checkpoints,save_checkpoint_path=config.SAVE_CHECKPOINT_PATH,
-                                    tensorboard=Tensorboard_Writer)
+    train.Training(EPOCHS=config.EPOCHS,dataloader=train_dataloader,Generator_Model=Generator_Model,
+                    Discriminator_Model=Discriminator_Model,devices=devices,resume_epoch=resume_epoch,
+                    discriminator_scaler=discriminator_scaler,generator_scaler=generator_scaler,
+                    LAMDA=config.LAMDA_L1,loss_BCE=loss_BCE,loss_L1=loss_L1,max_batch=config.MAX_BATCH_TRAIN,
+                    optimizer_disc=optimizer_disc,optimizer_gen=optimizer_gen,
+                    Save_Checkpoints_fn=checkpoints.Save_Checkpoints,save_checkpoint_path=config.SAVE_CHECKPOINT_PATH,
+                    tensorboard=Tensorboard_Writer)
 
 
 # Test Models
