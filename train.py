@@ -4,9 +4,6 @@ import tqdm
 from torchvision.utils import make_grid
 
 def Training(EPOCHS,resume_epoch,dataloader,Generator_Model,Discriminator_Model,devices,optimizer_disc,optimizer_gen,loss_L1,loss_BCE,discriminator_scaler,generator_scaler,LAMDA,max_batch,Save_Checkpoints_fn,tensorboard,save_checkpoint_path):
-    loss_dict={"Epoch":[],
-                "Loss Generator":[],
-                "Loss Discriminator":[]}
     
     for epoch in range(resume_epoch,EPOCHS):
         
@@ -50,24 +47,16 @@ def Training(EPOCHS,resume_epoch,dataloader,Generator_Model,Discriminator_Model,
             loss_total_discriminator+=loss_discriminator.item()
             loss_total_generator+=loss_Generator.item()
             
-            if batch%10==9:
+            if batch%10==0:
                 
                 Progress_Bar.set_postfix({"Epoch": epoch+1,
                                          "Loss Generator": loss_total_generator/(batch+1),
                                         "Loss Discriminator": loss_total_discriminator/(batch+1)})
-            
-            
-            loss_dict["Epoch"].append(epoch+1)
-            loss_dict["Loss Discriminator"].append(loss_total_discriminator/(batch+1))
-            loss_dict["Loss Generator"].append(loss_total_generator/(batch+1))               
-            
-            
             Progress_Bar.update(1)
             
-        
-            
             if batch==max_batch:
-               break 
+               break             
+
         
         image_edge=make_grid(x,nrow=10)
         image_real=make_grid(y,nrow=10)
@@ -77,7 +66,8 @@ def Training(EPOCHS,resume_epoch,dataloader,Generator_Model,Discriminator_Model,
         tensorboard.add_image("Real images",image_real,global_step=epoch+1)
         tensorboard.add_image("Generated images",image_generate,global_step=epoch+1)
         
-        tensorboard.add_scalars("Loss_Generator",loss_dict)
+        tensorboard.add_scalar("Loss_Generator",(loss_total_generator/(batch+1)),global_step=epoch+1)
+        tensorboard.add_scalar("Loss_Discriminator",(loss_total_generator/(batch+1)),global_step=epoch+1)
         
         Save_Checkpoints_fn(optim_gen=optimizer_gen,
                             optim_disc=optimizer_disc,
@@ -86,7 +76,6 @@ def Training(EPOCHS,resume_epoch,dataloader,Generator_Model,Discriminator_Model,
                             epoch=epoch+1,
                             save_path=save_checkpoint_path)
         
-    return loss_dict
 
         
     
